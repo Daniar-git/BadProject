@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/user/', include('EgovDjango.user.urls'))
+    path('api/user/', include('EgovDjango.user.urls')),
+    path('api/service/', include('EgovDjango.service.urls'))
 ]

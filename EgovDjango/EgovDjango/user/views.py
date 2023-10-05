@@ -6,7 +6,6 @@ from rest_framework import views, status
 from rest_framework.response import Response
 from selenium import webdriver
 
-from .models import User
 
 
 class UserLogin(views.APIView):
@@ -30,7 +29,7 @@ class UserLogin(views.APIView):
 
 class LoginCode(views.APIView):
     def post(self, request):
-        code = request.data.get('code')
+        code = int(request.data.get('code'))
         cookies = request.data.get('cookies')
         iin = request.data.get('iin')
         phone = request.data.get('phone')
@@ -51,23 +50,4 @@ class LoginCode(views.APIView):
         s.get('https://egov.kz/cms/ru')
         s.headers['Host'] = 'my.egov.kz'
         s.get('https://my.egov.kz/#/')
-        browser = webdriver.Firefox()
-        try:
-            browser.get("https://my.egov.kz/#/")
-
-            for cookie in s.cookies:
-                cookie_dict = {
-                    "name": cookie.name,
-                    "value": cookie.value,
-                }
-                print(cookie_dict)
-                browser.add_cookie(cookie_dict)
-            time.sleep(5)
-            browser.refresh()
-            print(browser.get_cookies())
-
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-
-        input("Press Enter to exit...")
         return Response(s.cookies, status=status.HTTP_200_OK)
